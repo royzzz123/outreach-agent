@@ -1,0 +1,209 @@
+<mxfile host="app.diagrams.net" modified="2026-04-09T00:00:00.000Z" agent="Claude" version="21.0.0" type="device">
+  <diagram id="outreach-agent-arch" name="Outreach Agent Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  TITLE                                                  -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <mxCell id="title" value="Outreach Agent — Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#e2e8f0;" vertex="1" parent="1">
+          <mxGeometry x="427" y="30" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  SWIM LANES (background bands)                          -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Lane: Input -->
+        <mxCell id="lane-input" value="INPUT" style="swimlane;startSize=30;fillColor=#1a1d27;strokeColor=#2e3350;fontColor=#64748b;fontSize=10;fontStyle=1;horizontal=0;swimlaneHead=0;swimlaneLine=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="120" height="980" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Agent Core -->
+        <mxCell id="lane-agent" value="AGENT CORE  (MiniMax M2 + Tool Use Loop)" style="swimlane;startSize=30;fillColor=#0f1117;strokeColor=#6366f1;fontColor=#6366f1;fontSize=10;fontStyle=1;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="90" width="620" height="980" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: External APIs -->
+        <mxCell id="lane-apis" value="EXTERNAL APIs" style="swimlane;startSize=30;fillColor=#1a1d27;strokeColor=#2e3350;fontColor=#64748b;fontSize=10;fontStyle=1;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="820" y="90" width="200" height="980" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Storage + Frontend -->
+        <mxCell id="lane-output" value="STORAGE + FRONTEND" style="swimlane;startSize=30;fillColor=#1a1d27;strokeColor=#2e3350;fontColor=#64748b;fontSize=10;fontStyle=1;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="90" width="240" height="980" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  USER INPUT                                             -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <mxCell id="user" value="👤 User" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#22263a;strokeColor=#6366f1;fontColor=#e2e8f0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="55" y="150" width="90" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cli" value="CLI&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;python agent.py&lt;br/&gt;--query &quot;Analytics Engineer&quot;&lt;br/&gt;--max-leads 10&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#22263a;strokeColor=#2e3350;fontColor=#e2e8f0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="240" width="100" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-user-cli" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;fontColor=#e2e8f0;" edge="1" source="user" target="cli" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  AGENT CORE                                             -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- Orchestrator -->
+        <mxCell id="orchestrator" value="🤖 MiniMax M2 Orchestrator&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Reasons about which tools to call.&lt;br/&gt;Decides order. Handles partial data.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#22263a;strokeColor=#6366f1;fontColor=#e2e8f0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="150" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-cli-orch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;" edge="1" source="cli" target="orchestrator" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Tool loop label -->
+        <mxCell id="loop-label" value="Tool use loop — repeats until all leads processed" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#64748b;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="195" y="245" width="600" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ── Tool 1: Search ── -->
+        <mxCell id="tool-search" value="🔍 Tool: search_linkedin_jobs&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Queries SerpAPI Google Jobs endpoint.&lt;br/&gt;Returns: company, title, description, URL.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a5f;strokeColor=#3b82f6;fontColor=#93c5fd;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="290" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-orch-search" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;" edge="1" source="orchestrator" target="tool-search" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── Tool 2: Scrape ── -->
+        <mxCell id="tool-scrape" value="🌐 Tool: scrape_company_website&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Fetches company site via requests+BS4.&lt;br/&gt;Returns: description, tech mentions.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a3a2a;strokeColor=#22c55e;fontColor=#86efac;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="420" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-search-scrape" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#94a3b8;" edge="1" source="tool-search" target="tool-scrape" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── Tool 3: Enrich ── -->
+        <mxCell id="tool-enrich" value="👤 Tool: find_decision_maker&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Hits Hunter.io domain-search API.&lt;br/&gt;Returns: name, email, title, LinkedIn.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d1b45;strokeColor=#a855f7;fontColor=#d8b4fe;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="550" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-scrape-enrich" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#94a3b8;" edge="1" source="tool-scrape" target="tool-enrich" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── Tool 4: Analyze ── -->
+        <mxCell id="tool-analyze" value="🧠 Tool: analyze_lead  (MiniMax inner call)&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Focused prompt: all context in → reason + fit score + contact modes out.&lt;br/&gt;Produces the &quot;why reach out&quot; column.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3a2010;strokeColor=#f97316;fontColor=#fdba74;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="680" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e-enrich-analyze" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#94a3b8;" edge="1" source="tool-enrich" target="tool-analyze" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── Tool 5: Save ── -->
+        <mxCell id="tool-save" value="💾 Tool: save_lead&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Appends enriched record to data/leads.csv.&lt;br/&gt;Fields: company, contact, reason, score, modes.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2a1a;strokeColor=#4ade80;fontColor=#86efac;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="820" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-analyze-save" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#94a3b8;" edge="1" source="tool-analyze" target="tool-save" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Loop-back arrow -->
+        <mxCell id="e-save-orch" value="next lead" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="tool-save" target="orchestrator" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="860" />
+              <mxPoint x="760" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  EXTERNAL APIs                                          -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- SerpAPI -->
+        <mxCell id="api-serp" value="SerpAPI&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Google Jobs engine&lt;br/&gt;LinkedIn job results&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#1e3a5f;strokeColor=#3b82f6;fontColor=#93c5fd;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="290" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tool-serp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#3b82f6;dashed=1;" edge="1" source="tool-search" target="api-serp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Company Website -->
+        <mxCell id="api-web" value="Company Website&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;requests + BeautifulSoup&lt;br/&gt;(or Google fallback)&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#1a3a2a;strokeColor=#22c55e;fontColor=#86efac;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="420" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tool-web" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#22c55e;dashed=1;" edge="1" source="tool-scrape" target="api-web" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Hunter.io -->
+        <mxCell id="api-hunter" value="Hunter.io API&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Domain search&lt;br/&gt;Email + title + LinkedIn&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#2d1b45;strokeColor=#a855f7;fontColor=#d8b4fe;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="550" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tool-hunter" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#a855f7;dashed=1;" edge="1" source="tool-enrich" target="api-hunter" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MiniMax M2 (inner call) -->
+        <mxCell id="api-minimax" value="MiniMax M2 API&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Personalization prompt&lt;br/&gt;reason + score + modes&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#3a2010;strokeColor=#f97316;fontColor=#fdba74;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="680" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tool-minimax" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#f97316;dashed=1;" edge="1" source="tool-analyze" target="api-minimax" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  STORAGE + FRONTEND                                     -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+
+        <!-- CSV -->
+        <mxCell id="csv" value="📄 data/leads.csv&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;company, contact_name, contact_title&lt;br/&gt;contact_email, contact_linkedin&lt;br/&gt;reason_to_reach_out, fit_score&lt;br/&gt;tech_stack, job_title&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#22263a;strokeColor=#6366f1;fontColor=#e2e8f0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="790" width="190" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e-save-csv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#4ade80;" edge="1" source="tool-save" target="csv" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Flask server -->
+        <mxCell id="server" value="🐍 server.py (Flask)&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;GET /api/leads → JSON&lt;br/&gt;Supports ?q= search filter&lt;br/&gt;localhost:5050&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#22263a;strokeColor=#6366f1;fontColor=#e2e8f0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="620" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e-csv-server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;" edge="1" source="csv" target="server" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="820" />
+              <mxPoint x="1160" y="710" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Frontend -->
+        <mxCell id="frontend" value="🖥 frontend/index.html&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;Leads table dashboard&lt;br/&gt;Columns: Company/Contact,&lt;br/&gt;Fit Score, Why Reach Out,&lt;br/&gt;Contact Mode, Tech Stack&lt;br/&gt;Live search + filters&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#22263a;strokeColor=#6366f1;fontColor=#e2e8f0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="440" width="190" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e-server-fe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6366f1;" edge="1" source="server" target="frontend" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Browser user -->
+        <mxCell id="browser" value="👁 Browser&lt;br/&gt;&lt;font style=&quot;font-size: 10px; color: #64748b;&quot;&gt;http://localhost:5050&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a3a2a;strokeColor=#22c55e;fontColor=#86efac;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="300" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e-fe-browser" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#22c55e;" edge="1" source="frontend" target="browser" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!--  LEGEND                                                 -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br/&gt;─── Control flow&lt;br/&gt;- - - API call&lt;br/&gt;🔵 Search tool&lt;br/&gt;🟢 Scrape tool&lt;br/&gt;🟣 Enrich tool&lt;br/&gt;🟠 Analyze tool" style="text;html=1;strokeColor=#2e3350;fillColor=#22263a;align=left;verticalAlign=top;spacingLeft=8;rounded=1;fontColor=#94a3b8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="280" width="160" height="160" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
